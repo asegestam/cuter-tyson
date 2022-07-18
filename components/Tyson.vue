@@ -10,7 +10,7 @@
       object-cover
     shadow-black
     animate-fade-in
-    duration-300" quality="80" provider="ipx" format="webp" :src="tyson.imgPath" />
+    duration-300" quality="80" format="webp" :src="tyson.imgPath" />
     <!-- <img class="
       w-full
       h-full
