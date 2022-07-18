@@ -1,6 +1,6 @@
 
 <template>
-  <div class="h-full sm:h-screen flex flex-col justify-between">
+  <div class="h-full flex flex-col justify-between">
     <NuxtLayout>
       <NuxtLoadingyarIndicator />
       <NuxtPage />
