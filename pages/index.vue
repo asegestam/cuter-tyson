@@ -29,10 +29,12 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 
+console.log(`${config.API_URL}/api/pair`);
+
 const mostRecentlyVotedFor = ref(null);
 const pendingVote = ref(false);
 
-const { data: tysons } = await useAsyncData('tysons', () => $fetch(`${config.API_URL}/api/pair`, { params: { except: mostRecentlyVotedFor.value } }));
+const tysons = await $fetch(`${config.API_URL}/api/pair`, { params: { except: mostRecentlyVotedFor.value } });
 
 const voteFor = async (votedForTyson: any) => {
     pendingVote.value = true;
