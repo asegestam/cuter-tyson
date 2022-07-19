@@ -18,7 +18,7 @@
                             </div>
                         </div>
                         <div class="pr-4">
-                            {{ generateCountPercent(tyson).toFixed(2) + "%" }}
+                            {{ tyson.votePercentage.toFixed(2) + "%" }}
                         </div>
                         <div
                             class="absolute top-0 left-0 z-20 flex items-center justify-center px-2 font-semibold text-white bg-gray-600 border border-gray-500 shadow-lg rounded-br-md">
@@ -36,15 +36,49 @@
 
 
 <script setup lang="ts">
-const { data: tysons } = await useAsyncData('tysons-ordered', () => $fetch('/api/tysons-ordered'));
+const config = useRuntimeConfig();
 
-const generateCountPercent = (tyson) => {
-    const { VoteFor, VoteAgainst } = tyson._count;
+type TysonResponse = {
+    id: number;
+    name: string;
+    imgPath: string;
+    votedFor: Array<Vote>
+    votedAgainst: Array<Vote>
+};
 
-    if (VoteFor + VoteAgainst === 0) {
+type Vote = {
+    id: number;
+    votedForId: number;
+    votedAgainstId: number;
+};
+
+const generateCountPercent = (tyson: TysonResponse) => {
+    const { votedFor, votedAgainst } = tyson;
+
+    const voteForCount = votedFor.length;
+    const voteAgainstCount = votedAgainst.length;
+
+    if (voteForCount + voteAgainstCount === 0) {
         return 0;
     }
-    return (VoteFor / (VoteFor + VoteAgainst)) * 100;
+    return (voteForCount / (voteForCount + voteAgainstCount)) * 100;
 };
+
+const { data: tysons } = await useAsyncData('tysons-ordered', () => $fetch(`${config.API_URL}/api/tysons`), {
+    transform: (data: TysonResponse[]) => {
+        const _data = data.map(tyson => ({
+            ...tyson,
+            votePercentage: generateCountPercent(tyson)
+        }));
+        _data.sort((a, b) => b.votePercentage - a.votePercentage)
+
+        return _data;
+    }
+});
+
+useHead({
+    title: 'Cutest Tyson - Results',
+    charset: 'utf-8',
+});
 
 </script>
