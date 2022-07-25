@@ -17,7 +17,7 @@
                                 <div class="pl-2 capitalize">{{ tyson.name }}</div>
                             </div>
                         </div>
-                        <div class="pr-4">
+                        <div :class="{ 'pr-4': true, 'text-green-500': tyson.votePercentage > 50, 'text-red-400': tyson.votePercentage <= 50}">
                             {{ tyson.votePercentage.toFixed(2) + "%" }}
                         </div>
                         <div
