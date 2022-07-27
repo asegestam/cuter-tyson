@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { MoonIcon, SunIcon } from '@heroicons/vue/solid'
+import { MoonIcon, SunIcon } from '@heroicons/vue/solid/index.js'
 
 const colorMode = useColorMode()
 
