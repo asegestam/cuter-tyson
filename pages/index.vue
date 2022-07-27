@@ -20,10 +20,10 @@
         />
       </div>
     </div>
-    <div class="flex justify-center mb-10 mt-10 sm:mt-0">
+    <div class="flex justify-center sm:mt-0">
       <NuxtLink
         to="results"
-        class="w-50 px-2 py-2 bg-green-400 hover:bg-green-500 dark:bg-green-600 hover:dark:bg-green-700 rounded shadow-sm shadow-slate-900 select-none"
+        class="w-50 mt-20 px-6 py-2 bg-green-400 hover:bg-green-500 dark:bg-green-600 hover:dark:bg-green-700 rounded shadow-sm shadow-slate-900 select-none"
       >
         <div class="flex justify-center">
           <svg
