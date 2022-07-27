@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    @apply h-full sm:h-full flex flex-col bg-neutral-100 text-slate-700 dark:bg-slate-900 dark:text-slate-200
+}
