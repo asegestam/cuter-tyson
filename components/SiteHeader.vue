@@ -27,6 +27,5 @@ const toggleDarkMode = () => {
   }
 }
 
-const isDarkMode = computed(() => colorMode.preference === 'dark')
-
+const isDarkMode = computed(() => colorMode.preference === 'dark' || colorMode.preference === 'system')
 </script>
