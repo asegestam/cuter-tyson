@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col justify-between h-full">
     <div>
-      <h1 class="text-center text-3xl p-4 mt-4">
-        Which is <span class="text-green-500">Tyson</span> cuter?
+      <h1 class="text-center text-3xl mt-4 select-none">
+        Which is <span class="text-green-600 dark:text-green-500">Tyson</span> cuter?
       </h1>
 
       <div class="flex flex-col sm:flex-row justify-evenly items-center m-2">
@@ -11,7 +11,7 @@
           :disabled="pendingVote"
           @voted-for="voteFor(tysons.firstTyson)"
         />
-        <span class="text-2xl italic my-4 sm:my-0"> or </span>
+        <span class="text-2xl italic my-4 sm:my-0 select-none"> or </span>
         <Tyson
           class="sm:mt-0"
           :tyson="tysons.secondTyson"
@@ -23,7 +23,7 @@
     <div class="flex justify-center mb-10 mt-10 sm:mt-0">
       <NuxtLink
         to="results"
-        class="w-50 px-2 py-2 bg-green-600 hover:bg-green-600 text-slate-200 rounded shadow-sm shadow-slate-900"
+        class="w-50 px-2 py-2 bg-green-400 hover:bg-green-500 dark:bg-green-600 hover:dark:bg-green-700 rounded shadow-sm shadow-slate-900 select-none"
       >
         <div class="flex justify-center">
           <svg
@@ -48,12 +48,12 @@
 </template>
 
 <script setup lang="ts">
-import { AsyncData } from "#app";
+import { AsyncData } from '#app'
 
 useHead({
-    title: "Cutest Tyson",
-    charset: "utf-8"
-});
+  title: 'Cutest Tyson',
+  charset: 'utf-8'
+})
 
 interface Tyson {
   id: number;
@@ -66,35 +66,35 @@ interface TysonResponse {
   secondTyson: Tyson;
 }
 
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 
-const mostRecentlyVotedFor = ref(null);
-const pendingVote = ref(false);
+const mostRecentlyVotedFor = ref(null)
+const pendingVote = ref(false)
 
-const { data: tysons } = (await useAsyncData("tysons", () =>
-    $fetch(`${config.API_URL}/api/pair`, {
-        params: { except: mostRecentlyVotedFor.value }
-    })
-)) as AsyncData<TysonResponse, Error>;
+const { data: tysons } = (await useAsyncData('tysons', () =>
+  $fetch(`${config.API_URL}/api/pair`, {
+    params: { except: mostRecentlyVotedFor.value }
+  })
+)) as AsyncData<TysonResponse, Error>
 
 const voteFor = async (votedForTyson: Tyson) => {
-    pendingVote.value = true;
+  pendingVote.value = true
 
-    mostRecentlyVotedFor.value = votedForTyson.id;
+  mostRecentlyVotedFor.value = votedForTyson.id
 
-    await refreshNuxtData("tysons");
+  await refreshNuxtData('tysons')
 
-    pendingVote.value = false;
+  pendingVote.value = false
 
-    $fetch("/api/vote", {
-        method: "POST",
-        body: {
-            votedForId: votedForTyson.id,
-            votedAgainstId:
+  $fetch('/api/vote', {
+    method: 'POST',
+    body: {
+      votedForId: votedForTyson.id,
+      votedAgainstId:
         votedForTyson.id === tysons.value.firstTyson.id
-            ? tysons.value.secondTyson.id
-            : tysons.value.firstTyson.id
-        }
-    });
-};
+          ? tysons.value.secondTyson.id
+          : tysons.value.firstTyson.id
+    }
+  })
+}
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center">
+  <div class="flex flex-col justify-center select-none">
     <h1 class="text-center text-2xl mb-2">
       {{ tyson.name }}
     </h1>
@@ -19,7 +19,7 @@
       :src="tyson.imgPath"
     >
     <button
-      class="px-4 py-2 rounded mt-10 bg-green-600 hover:bg-green-700 hover:scale-105 disabled:bg-slate-500 disabled:cursor-wait"
+      class="px-4 py-2 rounded mt-10 bg-green-400 hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-700 hover:scale-105 disabled:bg-slate-500 disabled:cursor-wait"
       :disabled="disabled"
       @click="$emit('votedFor')"
     >
@@ -32,19 +32,19 @@
 
 <script setup lang="ts">
 defineProps({
-    tyson: {
-        default: () => ({
-            name: "",
-            imgPath: "",
-            votePercentage: 0
-        }),
-        type: Object
-    },
-    disabled: {
-        default: true,
-        type: Boolean
-    }
-});
+  tyson: {
+    default: () => ({
+      name: '',
+      imgPath: '',
+      votePercentage: 0
+    }),
+    type: Object
+  },
+  disabled: {
+    default: true,
+    type: Boolean
+  }
+})
 
-defineEmits(["votedFor"]);
+defineEmits(['votedFor'])
 </script>

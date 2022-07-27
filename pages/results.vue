@@ -1,8 +1,8 @@
 <template>
-  <div class="relative">
+  <div class="select-none">
     <NuxtLink
       to="/"
-      class="ml-1 mt-2 bg-slate-500 p-2 text-white float-left rounded text-sm absolute left-0 top-0"
+      class="ml-1 mt-2 bg-green-400 dark:bg-green-600 p-2 float-left rounded text-sm absolute left-0 top-0"
     >
       Go back
     </NuxtLink>
@@ -12,9 +12,9 @@
           Results
         </h1>
       </div>
-      <div class="flex flex-col w-full max-w-2xl border">
+      <div class="flex flex-col w-full max-w-2xl border border-slate-300 dark:border-slate-400">
         <div v-for="(tyson, index) in tysons" :key="index">
-          <div class="relative flex border-b p-2 items-center justify-between">
+          <div class="relative flex border-b border-slate-300 dark:border-slate-500 p-2 items-center justify-between">
             <div class="flex items-center">
               <div class="flex items-center pl-4">
                 <img
@@ -30,8 +30,8 @@
             <div
               :class="{
                 'pr-4': true,
-                'text-green-500': tyson.votePercentage > 50,
-                'text-red-400': tyson.votePercentage <= 50,
+                'text-green-600 dark:text-green-500': tyson.votePercentage > 50,
+                'text-red-600 dark:text-red-500': tyson.votePercentage <= 50,
               }"
             >
               {{ tyson.votePercentage.toFixed(2) + "%" }}
@@ -49,12 +49,12 @@
 </template>
 
 <script setup lang="ts">
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 
 useHead({
-    title: "Cutest Tyson - Results",
-    charset: "utf-8"
-});
+  title: 'Cutest Tyson - Results',
+  charset: 'utf-8'
+})
 
 interface Vote {
   id: number;
@@ -71,30 +71,30 @@ interface TysonResponse {
 }
 
 const generateCountPercent = (tyson: TysonResponse) => {
-    const { votedFor, votedAgainst } = tyson;
+  const { votedFor, votedAgainst } = tyson
 
-    const voteForCount = votedFor.length;
-    const voteAgainstCount = votedAgainst.length;
+  const voteForCount = votedFor.length
+  const voteAgainstCount = votedAgainst.length
 
-    if (voteForCount + voteAgainstCount === 0) {
-        return 0;
-    }
-    return (voteForCount / (voteForCount + voteAgainstCount)) * 100;
-};
+  if (voteForCount + voteAgainstCount === 0) {
+    return 0
+  }
+  return (voteForCount / (voteForCount + voteAgainstCount)) * 100
+}
 
 const { data: tysons } = await useAsyncData(
-    "tysons-ordered",
-    () => $fetch(`${config.API_URL}/api/tysons`),
-    {
-        transform: (data: TysonResponse[]) => {
-            const _data = data.map(tyson => ({
-                ...tyson,
-                votePercentage: generateCountPercent(tyson)
-            }));
-            _data.sort((a, b) => b.votePercentage - a.votePercentage);
+  'tysons-ordered',
+  () => $fetch(`${config.API_URL}/api/tysons`),
+  {
+    transform: (data: TysonResponse[]) => {
+      const _data = data.map(tyson => ({
+        ...tyson,
+        votePercentage: generateCountPercent(tyson)
+      }))
+      _data.sort((a, b) => b.votePercentage - a.votePercentage)
 
-            return _data;
-        }
+      return _data
     }
-);
+  }
+)
 </script>
